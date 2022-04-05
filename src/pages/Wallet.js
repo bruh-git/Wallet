@@ -1,13 +1,22 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrencies } from '../actions/index';
+import { fetchCurrencies } from '../actions';
 import Header from '../components/Header';
 
-class Wallet extends React.Component {
+class Wallet extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+
+    this.state = {
+      description: '',
+      currency: '',
+      method: '',
+      category: '',
+      value: 0,
+    };
+
+    // this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -15,59 +24,87 @@ class Wallet extends React.Component {
     fetch();
   }
 
-  handleChange({ target }) {
+  handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
   }
 
   render() {
-    const { mySecondState: { currencies } } = this.props;
-    console.log(currencies);
+    const { currencies, isFetching } = this.props;
+    const { currency, description, method, category, value } = this.state;
     return (
       <div>
         TrybeWallet
         <Header />
         <form>
           <label htmlFor="valor">
-            <input
-              data-testid="value-input"
-              type="number"
-              min={ 0 }
-              onChange={ this.handleChange }
-              name="Valor"
-              required
-            />
+            Valor:
+            {' '}
+          </label>
+          <input
+            data-testid="value-input"
+            type="number"
+            min={ 0 }
+            onChange={ this.handleChange }
+            name="value"
+            value={ value }
+            required
+          />
+          <label htmlFor="description">
+            Descrição:
+            {' '}
+          </label>
+          <input
+            id="description"
+            data-testid="description-input"
+            type="text"
+            onChange={ this.handleChange }
+            name="description"
+            value={ description }
+          />
+          <label htmlFor="currency">
+            Moeda:
+            {' '}
+            {/* usado para dar espaço entre : e o input */}
           </label>
           <select
-            label="Moeda: "
-            defaultOption="Selecione"
+            id="currency"
             data-testid="currency-input"
-            onChange={ this.handleChange }
-            name="Moeda"
+            name="currency"
+            type="number"
+            value={ currency }
             required
           >
-            {/* {currencies.map(
-              (el) => <option key={ el } value={ el }>{el }</option>,
-            )} */}
+            { isFetching
+              ? <option>Loading...</option>
+              : currencies.map((el, index) => <option key={ index }>{el}</option>)}
           </select>
+          <label htmlFor="method">
+            Metódo de pagamento:
+            {' '}
+          </label>
           <select
             data-testid="method-input"
+            id="method"
             onChange={ this.handleChange }
-            label="Método de pagamento : "
-            type="text"
-            name="Método"
+            name="method"
+            value={ method }
             required
           >
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
             <option value="Cartão de débito">Cartão de débito</option>
           </select>
+          <label htmlFor="category">
+            Categoria:
+            {' '}
+          </label>
           <select
+            id="category"
             data-testid="tag-input"
             onChange={ this.handleChange }
-            label="Categoria: "
-            type="text"
-            name="Categoria"
+            name="category"
+            value={ category }
             required
           >
             <option value="Alimentação">Alimentação</option>
@@ -76,13 +113,6 @@ class Wallet extends React.Component {
             <option value="Transporte">Transporte</option>
             <option value="Saúde">Saúde</option>
           </select>
-          <input
-            label="Descrição: "
-            data-testid="description-input"
-            type="text"
-            onChange={ this.handleChange }
-            name="Descrição"
-          />
         </form>
       </div>
     );
@@ -90,12 +120,13 @@ class Wallet extends React.Component {
 }
 
 Wallet.propTypes = {
-  mySecondState: PropTypes.string.isRequired,
-  fetch: PropTypes.func.isRequired,
-};
+  currencies: PropTypes.arrayOf(PropTypes.string),
+  fetch: PropTypes.func,
+}.isRequired;
 
 const mapStateToProps = (state) => ({
-  mySecondState: state.wallet,
+  currencies: state.wallet.currencies,
+  isFetching: state.wallet.isFetching,
 });
 
 const mapDispatchToProps = (dispatch) => ({

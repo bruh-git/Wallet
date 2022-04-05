@@ -3,11 +3,9 @@ import { REQUEST_CURRENCIES, RECEIVE_CURRENCIES_SUCCESS,
   RECEIVE_CURRENCIES_FAILURE } from '../actions';
 
 const INITIAL_STATE = {
-  wallet: {
-    currencies: [],
-    expenses: [],
-    isFetching: false,
-  },
+  currencies: [],
+  expenses: [],
+  isFetching: false,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {

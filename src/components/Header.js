@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 
 class Header extends React.Component {
   render() {
-    // const { myFirstState: { email },
-    //   mySecondState: { currencies } } = this.props;
-    const { myFirstState: { email } } = this.props;
+    const { email } = this.props;
 
     return (
       <ul>
@@ -25,11 +23,11 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  myFirstState: PropTypes.objectOf(PropTypes.string).isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  myFirstState: state.user,
+  email: state.user.email,
 });
 
 export default connect(mapStateToProps, null)(Header);
