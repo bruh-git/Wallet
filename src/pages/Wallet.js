@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchCurrencies } from '../actions';
+import ExpensesTable from '../components/ExpensesTable';
 import Header from '../components/Header';
 
 class Wallet extends Component {
@@ -113,7 +114,14 @@ class Wallet extends Component {
             <option value="Transporte">Transporte</option>
             <option value="Saúde">Saúde</option>
           </select>
+          <button
+            type="submit"
+          // onClick={ this.onClick }
+          >
+            Adicionar despesa
+          </button>
         </form>
+        <ExpensesTable />
       </div>
     );
   }
