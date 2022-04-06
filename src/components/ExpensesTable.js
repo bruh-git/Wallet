@@ -1,7 +1,15 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class ExpensesTable extends Component {
+  // componentDidMount() {
+  //   const { fetchExpensesDispatch } = this.props;
+  //   fetchExpensesDispatch();
+  // }
+
   render() {
+    // const { expenses } = props;
     return (
       <table>
         <tr>
@@ -13,10 +21,33 @@ class ExpensesTable extends Component {
           <th>Câmbio utilizado</th>
           <th>Valor convertido</th>
           <th>Moeda de conversão</th>
-          <th>Editar/Excluir</th>
+          <th>
+            Editar/Excluir
+            {/* <button
+              type="submit"
+              data-testid="edit-btn"
+            >
+              Editar
+            </button>
+            <button
+              type="submit"
+              data-testid="delete-btn"
+            >
+              Excluir
+            </button> */}
+          </th>
+          {/* {expenses.map((expenses))} */}
         </tr>
       </table>
     );
   }
 }
-export default ExpensesTable;
+ExpensesTable.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.string),
+  fetchExpensesDispatch: PropTypes.func,
+}.isRequired;
+
+// const mapStateToProps = (dispatch) => ({
+
+// });
+export default connect()(ExpensesTable);

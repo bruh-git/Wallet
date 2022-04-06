@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrencies } from '../actions';
+import { fetchCurrencies, fetchExpenses } from '../actions';
 import ExpensesTable from '../components/ExpensesTable';
 import Header from '../components/Header';
 
@@ -10,19 +10,17 @@ class Wallet extends Component {
     super(props);
 
     this.state = {
+      value: 0,
       description: '',
       currency: '',
       method: '',
-      category: '',
-      value: 0,
+      tag: '',
     };
-
-    // this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    const { fetch } = this.props;
-    fetch();
+    const { fetchCurrenciesDispatch } = this.props;
+    fetchCurrenciesDispatch();
   }
 
   handleChange = ({ target }) => {
@@ -30,9 +28,15 @@ class Wallet extends Component {
     this.setState({ [name]: value });
   }
 
+  handleClick = (e) => {
+    e.preventDefault();
+    const { fetchExpensesDispatch } = this.props;
+    fetchExpensesDispatch();
+  }
+
   render() {
     const { currencies, isFetching } = this.props;
-    const { currency, description, method, category, value } = this.state;
+    const { currency, description, method, tag, value } = this.state;
     return (
       <div>
         TrybeWallet
@@ -74,6 +78,7 @@ class Wallet extends Component {
             name="currency"
             type="number"
             value={ currency }
+            onChange={ this.handleChange }
             required
           >
             { isFetching
@@ -96,16 +101,16 @@ class Wallet extends Component {
             <option value="Cartão de crédito">Cartão de crédito</option>
             <option value="Cartão de débito">Cartão de débito</option>
           </select>
-          <label htmlFor="category">
+          <label htmlFor="tag">
             Categoria:
             {' '}
           </label>
           <select
-            id="category"
+            id="tag"
             data-testid="tag-input"
             onChange={ this.handleChange }
-            name="category"
-            value={ category }
+            name="tag"
+            value={ tag }
             required
           >
             <option value="Alimentação">Alimentação</option>
@@ -116,7 +121,7 @@ class Wallet extends Component {
           </select>
           <button
             type="submit"
-          // onClick={ this.onClick }
+            onClick={ this.handleClick }
           >
             Adicionar despesa
           </button>
@@ -129,7 +134,7 @@ class Wallet extends Component {
 
 Wallet.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string),
-  fetch: PropTypes.func,
+  fetchCurrenciesDispatch: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
@@ -138,7 +143,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetch: () => dispatch(fetchCurrencies()),
+  fetchCurrenciesDispatch: () => dispatch(fetchCurrencies()),
+  fetchExpensesDispatch: () => dispatch(fetchExpenses()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
