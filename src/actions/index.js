@@ -55,6 +55,7 @@ export const fetchExpenses = () => async (dispatch) => {
   dispatch(requestAddExpense());
   try {
     const json = await fetchWallet();
+    console.log(json);
     dispatch(receiveAddExpenseSucess(json));
   } catch (error) {
     dispatch(receiveAddExpenseFailure());

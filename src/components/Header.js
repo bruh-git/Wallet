@@ -3,14 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Header extends React.Component {
+  // {aqui tem que fazer um reducer,
+  // transformar em numero e tofixed(2) valor inicial 0
+
   render() {
-    const { email,
-      // expenses
-    } = this.props;
-
-    // {aqui tem que fazer um reducer,
-    // transformar em numero e tofixed(2) valor inicial 0
-
+    const { email } = this.props;
+    // const { total } = this.valueTotal();
     return (
       <div>
         <ul>
@@ -21,7 +19,6 @@ class Header extends React.Component {
           <li data-testid="total-field">
             Despesa total:
             0
-            {/* {expenses.toFixed(2)} */}
           </li>
           <li data-testid="header-currency-field">BRL</li>
         </ul>

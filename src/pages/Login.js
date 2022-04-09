@@ -14,7 +14,7 @@ class Login extends React.Component {
     };
   }
 
-  handleInputChange = ({ target }) => {
+  handleInputChange = ({ target }) => { // componente controlado
     const { name, value } = target;
     this.setState({ [name]: value }, this.validate);
   }
@@ -28,9 +28,9 @@ class Login extends React.Component {
     const passwordValid = password.length >= senhalength;
 
     if (emailValid && passwordValid) {
-      this.setState({ disabled: false });
+      this.setState({ disabled: false }); // habilita o botao em caso de ser vdd
     } else {
-      this.setState({ disabled: true });
+      this.setState({ disabled: true }); // botao continua desabilitado se falso
     }
   }
 
@@ -58,7 +58,7 @@ class Login extends React.Component {
             type="submit"
             id="btn-input"
             disabled={ disabled }
-            onClick={ () => myFirstDispatch(this.state) }
+            onClick={ () => myFirstDispatch(this.state) } // dispara a action
           >
             Entrar
           </button>
@@ -73,7 +73,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  myFirstDispatch: (value) => dispatch(ACTION_USER_LOGIN(value)),
+  myFirstDispatch: (email) => dispatch(ACTION_USER_LOGIN(email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

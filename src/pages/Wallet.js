@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrencies, fetchExpenses } from '../actions';
+import { fetchCurrencies, fetchExpenses, receiveAddExpenseSucess } from '../actions';
 import ExpensesTable from '../components/ExpensesTable';
 import Header from '../components/Header';
 
@@ -14,7 +14,7 @@ class Wallet extends Component {
       description: '',
       currency: '',
       method: '',
-      tag: '',
+      tag: 'Alimentação',
     };
   }
 
@@ -30,8 +30,26 @@ class Wallet extends Component {
 
   handleClick = (e) => {
     e.preventDefault();
-    const { fetchExpensesDispatch } = this.props;
-    fetchExpensesDispatch();
+    const { value, description, currency, method, tag } = this.state;
+    const { AddExpense, expenses } = this.props;
+    const fetchExpense = fetchExpenses();
+    const obj = {
+      id: expenses.length,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: fetchExpense,
+    };
+    AddExpense(obj);
+    this.setState({
+      value: '',
+      description: '',
+      currency,
+      method,
+      tag,
+    });
   }
 
   render() {
@@ -140,11 +158,12 @@ Wallet.propTypes = {
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   isFetching: state.wallet.isFetching,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCurrenciesDispatch: () => dispatch(fetchCurrencies()),
-  fetchExpensesDispatch: () => dispatch(fetchExpenses()),
+  AddExpense: (expense) => dispatch(receiveAddExpenseSucess(expense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

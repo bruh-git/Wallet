@@ -7,22 +7,10 @@ import { RECEIVE_CURRENCIES_FAILURE,
 
 const INITIAL_STATE = {
   currencies: [], // currencies traz todas as moedas da Api ex.: USD
-  expenses: [{ // expenses traz todas as depesas digitadas nos inptus
-    id: 0,
-    value: '',
-    description: '',
-    currency: '',
-    method: '',
-    tag: '',
-    exchangeRates: { // taxas de câmbio
-      USD: {
-        code: '',
-        name: '',
-        ask: '',
-      },
-    },
-  }],
+  expenses: [ // expenses traz todas as depesas digitadas nos inptus
+  ],
   isFetching: false,
+  error: '',
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -36,7 +24,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   case REQUEST_EXPENSES:
     return { ...state };
   case RECEIVE_EXPENSES_SUCCESS:
-    return { ...state, expenses: [...state.expenses, action.expense] };
+    return { ...state, expenses: [...state.expenses, action.expense] }; // junta o novo estado com os que ja estão lá.
   case RECEIVE_EXPENSES_FAILURE:
     return { ...state, error: action.error };
   default:
