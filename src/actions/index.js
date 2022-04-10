@@ -28,7 +28,6 @@ export const requestAddExpense = () => ({
 
 export const receiveAddExpenseSucess = (expense) => ({
   type: RECEIVE_EXPENSES_SUCCESS,
-  // value: expense,
   expense,
 });
 
@@ -51,13 +50,13 @@ export const fetchCurrencies = () => async (dispatch) => {
   }
 };
 
-export const fetchExpenses = () => async (dispatch) => {
+/* export const fetchExpenses = () => async (dispatch) => {
   dispatch(requestAddExpense());
   try {
-    const json = await fetchWallet();
-    console.log(json);
-    dispatch(receiveAddExpenseSucess(json));
+    const data = await fetchWallet();
+    const parKeyValue = Object.entries(data);
+    dispatch(receiveAddExpenseSucess(parKeyValue));
   } catch (error) {
     dispatch(receiveAddExpenseFailure());
   }
-};
+}; */

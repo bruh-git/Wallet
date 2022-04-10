@@ -22,7 +22,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   case RECEIVE_CURRENCIES_FAILURE:
     return { ...state, isFetching: false, error: action.error };
   case REQUEST_EXPENSES:
-    return { ...state };
+    return { ...state, isFetching: true };
   case RECEIVE_EXPENSES_SUCCESS:
     return { ...state, expenses: [...state.expenses, action.expense] }; // junta o novo estado com os que ja estão lá.
   case RECEIVE_EXPENSES_FAILURE:

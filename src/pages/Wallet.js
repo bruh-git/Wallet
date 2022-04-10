@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrencies, fetchExpenses, receiveAddExpenseSucess } from '../actions';
+import { fetchCurrencies, receiveAddExpenseSucess } from '../actions';
 import ExpensesTable from '../components/ExpensesTable';
 import Header from '../components/Header';
 
@@ -12,8 +12,8 @@ class Wallet extends Component {
     this.state = {
       value: 0,
       description: '',
-      currency: '',
-      method: '',
+      currency: 'USD',
+      method: 'Dinheiro',
       tag: 'Alimentação',
     };
   }
@@ -28,11 +28,14 @@ class Wallet extends Component {
     this.setState({ [name]: value });
   }
 
-  handleClick = (e) => {
+  handleClick = async (e) => {
     e.preventDefault();
+    const request = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const result = await request.json();
     const { value, description, currency, method, tag } = this.state;
     const { AddExpense, expenses } = this.props;
-    const fetchExpense = fetchExpenses();
+    // const fetchExpenses = fetchExpenses;
+    // Não pode chamar fetchExpenses() pois esse dispatch is not a function
     const obj = {
       id: expenses.length,
       value,
@@ -40,7 +43,7 @@ class Wallet extends Component {
       currency,
       method,
       tag,
-      exchangeRates: fetchExpense,
+      exchangeRates: result,
     };
     AddExpense(obj);
     this.setState({
