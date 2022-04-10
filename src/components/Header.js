@@ -26,7 +26,7 @@ class Header extends React.Component {
           </li>
           <li data-testid="total-field">
             {expenses.reduce((acc, { exchangeRates, currency, value }) => acc + (
-              parseFloat(exchangeRates[currency].ask) * Number(value)
+              Number(exchangeRates[currency].ask) * Number(value)
             ),
             0).toFixed(2)}
           </li>

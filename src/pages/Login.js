@@ -36,7 +36,7 @@ class Login extends React.Component {
 
   render() {
     const { disabled, email, password } = this.state;
-    const { myFirstDispatch } = this.props;
+    const { userDispatch } = this.props;
     return (
       <form>
         <input
@@ -58,7 +58,7 @@ class Login extends React.Component {
             type="submit"
             id="btn-input"
             disabled={ disabled }
-            onClick={ () => myFirstDispatch(this.state) } // dispara a action
+            onClick={ () => userDispatch(this.state) } // dispara a props action
           >
             Entrar
           </button>
@@ -69,11 +69,11 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  myFirstDispatch: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userDispatch: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  myFirstDispatch: (email) => dispatch(ACTION_USER_LOGIN(email)),
+  userDispatch: (email) => dispatch(ACTION_USER_LOGIN(email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

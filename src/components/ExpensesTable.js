@@ -30,8 +30,8 @@ class ExpensesTable extends Component {
             <td>{ Number(el.exchangeRates[el.currency].ask).toFixed(2) }</td>
             <td>
               {
-                (parseFloat(el.value)
-                  * parseFloat(el.exchangeRates[el.currency].ask))
+                (Number(el.value)
+                  * Number(el.exchangeRates[el.currency].ask))
                   .toFixed(2)
               }
             </td>
@@ -48,7 +48,6 @@ class ExpensesTable extends Component {
 }
 ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.string),
-  fetchExpensesDispatch: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
